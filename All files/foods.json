@@ -1,0 +1,8 @@
+[
+  { "name": "pizza", "calories": 266 },
+  { "name": "pasta", "calories": 131 },
+  { "name": "hamburger", "calories": 295 },
+  { "name": "döner", "calories": 624 },
+  { "name": "white wine", "calories": 83 },
+  { "name": "chocolate cake", "calories": 371 }
+]
