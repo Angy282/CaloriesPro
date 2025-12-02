@@ -26,21 +26,33 @@ function addBudget() {
   if (!budget) return alert("Please enter your daily calories budget");
 
   localStorage.setItem("dailyCaloriesBudget", budget);
-  dailyCalories.textContent = `Calories Budget: ${budget}`;
+  remainingBudget = budget;
+  localStorage.setItem("caloriesRemained", remainingBudget);
+
+  dailyCalories.textContent = `Remaining Calories: ${remainingBudget}`;
   budgetField.value = "";
 }
 
 function resetCalories() {
+  localStorage.removeItem("caloriesRemained");
+  localStorage.removeItem("dailyCaloriesBudget");
+
+  remainingBudget = 0;
+  counter = 0;
+
+  dailyCalories.textContent = "Remaining Calories: 0";
+  resultDiv.innerHTML = "";
+  budgetField.value = "";
 }
 
 // a function to capitalize the results for better syntax.
 
 function capitalize(str) {
   return str
-  .toLowerCase()
-  .split(" ")
-  .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-  .join(" ");
+    .toLowerCase()
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 }
 
 // Fetching calories and other data via API CALL
@@ -70,33 +82,50 @@ async function checkCalories() {
   const per100 = (calories / food.servingSize) * 100;
   let rounded = Math.round(per100);
 
-  const resultItem = document.createElement("p");
-
+  // Decrease from budget
   remainingBudget -= rounded;
   localStorage.setItem("caloriesRemained", remainingBudget);
-  dailyCalories.textContent = `Remaining Calories: ${remainingBudget}`
+  dailyCalories.textContent = `Remaining calories: ${remainingBudget}`;
 
-  if (!food) {
-    resultItem.textContent = "No results found.";
-  } else counter++;
+  // Create wrapper entry container
+  const entry = document.createElement("div");
+  entry.classList.add("entry");
+
+  // Create result text
+  const resultItem = document.createElement("span");
+  counter++;
   resultItem.textContent = `${counter}. ${capitalize(
     food.description
-  )}: ${rounded} kcal`;
-  resultDiv.appendChild(resultItem);
+  )}: ${rounded} kcal - `;
+
+  // Create delete button
+  const deleteBtn = document.createElement("button");
+  deleteBtn.textContent = "X";
+  deleteBtn.classList.add("deleteBtn");
+
+  // Delete function
+  deleteBtn.addEventListener("click", () => {
+    remainingBudget += rounded;
+    localStorage.setItem("caloriesRemained", remainingBudget);
+    dailyCalories.textContent = `Remaining calories: ${remainingBudget}`;
+
+    entry.remove();
+  });
+
+  entry.appendChild(resultItem);
+  entry.appendChild(deleteBtn);
+  resultDiv.appendChild(entry);
+
   inputField.value = "";
 }
 
-
-
 // Localstorage
 let savedBudget = localStorage.getItem("dailyCaloriesBudget");
-if (savedBudget) {
-  dailyCalories.textContent = `Your Calories for today: ${savedBudget}`;
-}
-
 let remainingBudget = localStorage.getItem("caloriesRemained");
-if (!remainingBudget) {
-  remainingBudget = savedBudget ? Number(savedBudget) : 0;
+
+if (savedBudget && !remainingBudget) {
+  remainingBudget = Number(savedBudget);
   localStorage.setItem("caloriesRemained", remainingBudget);
 }
-dailyCalories.textContent = `Remaining Calories: ${remainingBudget}`;
+
+dailyCalories.textContent = `Remaining Calories: ${remainingBudget || 0}`;
