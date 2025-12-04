@@ -4,6 +4,7 @@ const resultDiv = document.querySelector(".results");
 const budgetField = document.getElementById("budgetField");
 const dailyCalories = document.querySelector(".dailyCalories");
 const gramsField = document.getElementById("gramsField");
+const workoutField = document.getElementById("workoutField");
 
 const API_KEY = "yIhxJacfPG8DrS9EiLh3vOg0vBOkuIqhXv0cAjbQ";
 
@@ -72,7 +73,9 @@ async function checkCalories() {
   grams = Number(grams);
 
   const res = await fetch(
-    `https://api.nal.usda.gov/fdc/v1/foods/search?api_key=${API_KEY}&query=${encodeURIComponent(query)}`
+    `https://api.nal.usda.gov/fdc/v1/foods/search?api_key=${API_KEY}&query=${encodeURIComponent(
+      query
+    )}`
   );
   const data = await res.json();
 
@@ -82,7 +85,7 @@ async function checkCalories() {
     `https://api.nal.usda.gov/fdc/v1/food/${fdcId}?api_key=${API_KEY}`
   );
   const food = await response.json();
-console.log(food)
+  console.log(food);
   const calories = food.labelNutrients.calories.value;
 
   // per 100g
@@ -104,7 +107,9 @@ console.log(food)
   // Create text
   counter++;
   const resultItem = document.createElement("span");
-  resultItem.textContent = `${counter}. ${capitalize(food.description)} (${grams}g): ${finalCalories} kcal - `;
+  resultItem.textContent = `${counter}. ${capitalize(
+    food.description
+  )} (${grams}g): ${finalCalories} kcal - `;
 
   // Delete button
   const deleteBtn = document.createElement("button");
@@ -126,6 +131,25 @@ console.log(food)
   gramsField.value = "";
 }
 
+function applyWorkout() {
+  const answer = workoutField.value;
+
+  if (answer === "yes") {
+    if (localStorage.getItem("workoutBonusApplied") === "true") {
+      return alert("Workout bonus already applied today!");
+    }
+    remainingBudget = Number(remainingBudget) + 300;
+    localStorage.setItem("caloriesRemained", remainingBudget);
+    dailyCalories.textContent = `Remaining Calories: ${remainingBudget}`;
+
+    localStorage.setItem("workoutBonusApplied", "true");
+    alert("Great job! +300 calories added 🎉");
+  } else {
+    alert("No workout bonus applied.");
+  }
+
+  workoutField.value = ""
+}
 // Localstorage
 let savedBudget = localStorage.getItem("dailyCaloriesBudget");
 let remainingBudget = localStorage.getItem("caloriesRemained");

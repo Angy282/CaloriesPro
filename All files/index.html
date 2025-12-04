@@ -27,20 +27,39 @@
     <div class="container">
       <h1>Calories Calculator</h1>
       <div>
-        <input type="number" id="budgetField" placeholder="Daily budget" />
-        <button class="checkBtn" onclick="addBudget()">Save</button>
-        <input type="text" placeholder="Type food here" id="inputField" />
-        <input type="number" placeholder="Grams" id="gramsField">
-        <button class="checkBtn" onclick="checkCalories()">Check</button>
+        <div class="miniDivs">
+          <input
+            type="number"
+            id="budgetField"
+            placeholder="Enter your daily budget"
+          />
+          <button class="checkBtn" onclick="addBudget()">Save</button>
+        </div>
+        <div class="workoutDiv">
+          <label for="workoutField">Did you workout today?</label>
+          <select id="workoutField">
+            <option value="">--- select ---</option>
+            <option value="yes">Yes!</option>
+            <option value="no">No 😓</option>
+          </select>
+          <button onclick="applyWorkout()">Apply</button>
+        </div>
+        <div>
+          <input type="text" placeholder="Type food here" id="inputField" />
+          <input type="number" placeholder="Grams" id="gramsField" />
+          <button class="checkBtn" onclick="checkCalories()">Check</button>
+        </div>
       </div>
     </div>
     <!-- Results -->
     <div class="subcontainer">
-      <h2 class="dailyCalories">Remaining Calories: 0 </h2><button onclick="resetCalories()" class="resetBtn">Reset</button>
-      <h2>Calories consumed Today (100g):</h2>
-      <div class="results">
-
+      <div class="resetDiv">
+        <h2 class="dailyCalories">Remaining Calories: 0</h2>
+        <button onclick="resetCalories()" class="resetBtn">Reset</button>
       </div>
+
+      <h2>Calories consumed Today:</h2>
+      <div class="results"></div>
     </div>
 
     <footer>
