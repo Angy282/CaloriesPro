@@ -52,7 +52,8 @@ h2 {
 }
 
 #inputField,
-#budgetField {
+#budgetField,
+#gramsField {
   margin: 5px;
   border-radius: 7px;
   padding: 5px;
@@ -70,4 +71,3 @@ footer {
   color: rgb(216, 212, 212);
   margin-top: 120px;
 }
-

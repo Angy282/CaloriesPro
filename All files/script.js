@@ -3,11 +3,18 @@ const inputField = document.getElementById("inputField");
 const resultDiv = document.querySelector(".results");
 const budgetField = document.getElementById("budgetField");
 const dailyCalories = document.querySelector(".dailyCalories");
+const gramsField = document.getElementById("gramsField");
 
 const API_KEY = "yIhxJacfPG8DrS9EiLh3vOg0vBOkuIqhXv0cAjbQ";
 
 // Making "Enter" also works
 inputField.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    // checkCalories();
+    checkCalories();
+  }
+});
+gramsField.addEventListener("keydown", (event) => {
   if (event.key === "Enter") {
     // checkCalories();
     checkCalories();
@@ -54,17 +61,18 @@ function capitalize(str) {
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
 }
-
 // Fetching calories and other data via API CALL
 counter = 0;
 async function checkCalories() {
   const query = inputField.value;
   if (!query) return alert("Please enter a food item");
 
+  let grams = gramsField.value;
+  if (!grams || grams <= 0) return alert("Please enter grams");
+  grams = Number(grams);
+
   const res = await fetch(
-    `https://api.nal.usda.gov/fdc/v1/foods/search?api_key=${API_KEY}&query=${encodeURIComponent(
-      query
-    )}`
+    `https://api.nal.usda.gov/fdc/v1/foods/search?api_key=${API_KEY}&query=${encodeURIComponent(query)}`
   );
   const data = await res.json();
 
@@ -73,42 +81,40 @@ async function checkCalories() {
   const response = await fetch(
     `https://api.nal.usda.gov/fdc/v1/food/${fdcId}?api_key=${API_KEY}`
   );
-
   const food = await response.json();
-  console.log(food);
-
-  // Show results here
+console.log(food)
   const calories = food.labelNutrients.calories.value;
-  const per100 = (calories / food.servingSize) * 100;
-  let rounded = Math.round(per100);
 
-  // Decrease from budget
-  remainingBudget -= rounded;
+  // per 100g
+  const per100 = (calories / food.servingSize) * 100;
+
+  // user amount
+  const finalCalories = Math.round((per100 / 100) * grams);
+
+  // decrease from budget
+  remainingBudget -= finalCalories;
   localStorage.setItem("caloriesRemained", remainingBudget);
+
   dailyCalories.textContent = `Remaining calories: ${remainingBudget}`;
 
-  // Create wrapper entry container
+  // Create wrapper
   const entry = document.createElement("div");
   entry.classList.add("entry");
 
-  // Create result text
-  const resultItem = document.createElement("span");
+  // Create text
   counter++;
-  resultItem.textContent = `${counter}. ${capitalize(
-    food.description
-  )}: ${rounded} kcal - `;
+  const resultItem = document.createElement("span");
+  resultItem.textContent = `${counter}. ${capitalize(food.description)} (${grams}g): ${finalCalories} kcal - `;
 
-  // Create delete button
+  // Delete button
   const deleteBtn = document.createElement("button");
   deleteBtn.textContent = "X";
   deleteBtn.classList.add("deleteBtn");
 
-  // Delete function
   deleteBtn.addEventListener("click", () => {
-    remainingBudget += rounded;
+    remainingBudget += finalCalories;
     localStorage.setItem("caloriesRemained", remainingBudget);
     dailyCalories.textContent = `Remaining calories: ${remainingBudget}`;
-
     entry.remove();
   });
 
@@ -117,6 +123,7 @@ async function checkCalories() {
   resultDiv.appendChild(entry);
 
   inputField.value = "";
+  gramsField.value = "";
 }
 
 // Localstorage
