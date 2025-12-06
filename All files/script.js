@@ -44,6 +44,7 @@ function addBudget() {
 function resetCalories() {
   localStorage.removeItem("caloriesRemained");
   localStorage.removeItem("dailyCaloriesBudget");
+  localStorage.removeItem("workoutBonusApplied");
 
   remainingBudget = 0;
   counter = 0;
@@ -109,7 +110,7 @@ async function checkCalories() {
   const resultItem = document.createElement("span");
   resultItem.textContent = `${counter}. ${capitalize(
     food.description
-  )} (${grams}g): ${finalCalories} kcal - `;
+  )} (${grams}g): ${finalCalories} kcal`;
 
   // Delete button
   const deleteBtn = document.createElement("button");

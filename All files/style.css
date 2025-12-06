@@ -67,14 +67,66 @@ h2 {
   margin: 10px auto 0 auto;
   border-radius: 20px;
 }
+/* Modern clean inputs */
+input[type="text"],
+input[type="number"],
+select {
+  width: 180px;
+  margin-bottom: 6px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
+  color: rgb(216, 212, 212);
+  font-size: 15px;
+  transition: all 0.25s ease;
+  outline: none;
+  backdrop-filter: blur(4px); /* subtle glass effect */
+}
 
-#inputField,
-#budgetField,
-#gramsField {
-  margin: 5px;
-  border-radius: 7px;
-  padding: 5px;
-  padding-left: 6px;
+input::placeholder {
+  color: rgba(216, 212, 212, 0.7);
+  font-weight: 300;
+}
+
+/* Focus state */
+input:focus,
+select:focus {
+  border-color: #ffffff;
+  background: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.25);
+}
+
+/* Buttons */
+button {
+  padding: 8px 14px;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: rgb(216, 212, 212);
+  font-size: 14px;
+  transition: 0.2s ease;
+}
+
+button:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+}
+
+button:active {
+  transform: scale(0.97);
+}
+
+/* Delete buttons */
+.deleteBtn {
+  width: 50px;
+  background: rgba(255, 60, 60, 0.2);
+  border: 1px solid rgba(255, 60, 60, 0.4);
+  color: #ff8a8a;
+}
+
+.deleteBtn:hover {
+  background: rgba(255, 60, 60, 0.3);
 }
 
 footer {
@@ -94,4 +146,10 @@ footer {
 button {
   padding: 5px;
   cursor: pointer;
+}
+
+.entry {
+  display: flex;
+  justify-content: space-between;
+  font-size: 18px;
 }
