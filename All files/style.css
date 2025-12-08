@@ -38,6 +38,9 @@ h1,
 h2 {
   font-weight: lighter;
   font-size: 30px;
+  /* background-color: rgb(117, 151, 151);
+  border-radius: 15px;
+  padding: 8px 10px; */
 }
 
 .container {
@@ -66,6 +69,12 @@ h2 {
   padding: 20px 20px 10px;
   margin: 10px auto 0 auto;
   border-radius: 20px;
+}
+
+.miniDiv {
+  display: flex;
+  justify-content: space-between;
+
 }
 /* Modern clean inputs */
 input[type="text"],
@@ -146,6 +155,7 @@ footer {
 button {
   padding: 5px;
   cursor: pointer;
+  margin-bottom: 4px;
 }
 
 .entry {

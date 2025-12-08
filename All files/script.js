@@ -15,6 +15,14 @@ inputField.addEventListener("keydown", (event) => {
     checkCalories();
   }
 });
+
+workoutField.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    // checkCalories();
+    applyWorkout();
+  }
+});
+
 gramsField.addEventListener("keydown", (event) => {
   if (event.key === "Enter") {
     // checkCalories();
@@ -52,6 +60,7 @@ function resetCalories() {
   dailyCalories.textContent = "Remaining Calories: 0";
   resultDiv.innerHTML = "";
   budgetField.value = "";
+  workoutField.value = "";
 }
 
 // a function to capitalize the results for better syntax.

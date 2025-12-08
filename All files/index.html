@@ -26,30 +26,30 @@
     <!-- Calculator -->
     <div class="container">
       <h1>Calories Calculator</h1>
-      <div>
-        <div class="miniDivs">
-          <input
-            type="number"
-            id="budgetField"
-            placeholder="Enter your daily budget"
-          />
-          <button class="checkBtn" onclick="addBudget()">Save</button>
-        </div>
-        <div class="workoutDiv">
-          <label for="workoutField">Did you workout today?</label>
-          <select id="workoutField">
-            <option value="">--- select ---</option>
-            <option value="yes">Yes!</option>
-            <option value="no">No 😓</option>
-          </select>
-          <button onclick="applyWorkout()">Apply</button>
-        </div>
-        <div>
+      <div class="miniDiv">
+        <label for="budgetField">Enter your daily budget</label>
+        <input
+          type="number"
+          id="budgetField"
+          placeholder="Daily budget"
+        />
+        <button class="checkBtn" onclick="addBudget()">Save</button>
+      </div>
+      <div class="miniDiv">
+        <label for="workoutField">Did you workout today?</label>
+        <select id="workoutField">
+          <option value="">--- select ---</option>
+          <option value="yes">Yes!</option>
+          <option value="no">No 😓</option>
+        </select>
+        <button onclick="applyWorkout()">Apply</button>
+      </div>
+        <div class="miniDiv">
           <input type="text" placeholder="Type food here" id="inputField" />
           <input type="number" placeholder="Grams" id="gramsField" />
           <button class="checkBtn" onclick="checkCalories()">Check</button>
         </div>
-      </div>
+
     </div>
     <!-- Results -->
     <div class="subcontainer">
