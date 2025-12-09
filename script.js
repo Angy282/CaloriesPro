@@ -66,7 +66,6 @@ function resetCalories() {
   remainingBudget = 0;
   counter = 0;
 
-
   dailyCalories.textContent = "Remaining Calories: 0";
   dailyCalories.style.color = "white";
   localStorage.removeItem("savedEntries");
@@ -126,10 +125,9 @@ async function checkCalories() {
   const entry = document.createElement("div");
   entry.classList.add("entry");
 
-
   counter++;
   const resultItem = document.createElement("span");
-  resultItem.textContent = `${counter}. ${capitalize(
+  resultItem.textContent = `- ${capitalize(
     food.description
   )} (${grams}g): ${finalCalories} kcal`;
 
@@ -143,7 +141,6 @@ async function checkCalories() {
     localStorage.setItem("caloriesRemained", remainingBudget);
     updateRemainingCalories();
     entry.remove();
-    counter--;
     localStorage.setItem("savedEntries", resultDiv.innerHTML);
   });
 
@@ -177,8 +174,6 @@ function applyWorkout() {
   workoutField.value = "";
 }
 
-
-
 // saving data to Local Storage and loading it when the page loads
 
 // Budget
@@ -191,7 +186,7 @@ if (savedBudget && !remainingBudget) {
 }
 
 dailyCalories.textContent = `Remaining Calories: ${remainingBudget || 0}`;
-
+updateRemainingCalories();
 
 // the food list
 const savedHTML = localStorage.getItem("savedEntries");
