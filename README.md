@@ -9,11 +9,12 @@ Count your daily calories and stay on track! 💪🏻
 Simple, Quick and Healthy! 🍎🥧🍔☕️🍕
 
 
-  
--- -- -- -- 
-   
+
+-- -- -- --
+
 Technologies used:
 - HTML5
 - CSS
 - JavaScript
 - REST API
+_ Font Awesome

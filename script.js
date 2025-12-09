@@ -54,7 +54,7 @@ function addBudget() {
   remainingBudget = budget;
   localStorage.setItem("caloriesRemained", remainingBudget);
 
-  dailyCalories.textContent = `Remaining Calories: ${remainingBudget}`;
+  updateRemainingCalories();
   budgetField.value = "";
 }
 
@@ -66,8 +66,10 @@ function resetCalories() {
   remainingBudget = 0;
   counter = 0;
 
-  updateRemainingCalories();
+
   dailyCalories.textContent = "Remaining Calories: 0";
+  dailyCalories.style.color = "white";
+  localStorage.removeItem("savedEntries");
   resultDiv.innerHTML = "";
   budgetField.value = "";
   workoutField.value = "";
@@ -120,11 +122,11 @@ async function checkCalories() {
 
   updateRemainingCalories();
 
-  // Create wrapper
+  // creating new div for results
   const entry = document.createElement("div");
   entry.classList.add("entry");
 
-  // Create text
+
   counter++;
   const resultItem = document.createElement("span");
   resultItem.textContent = `${counter}. ${capitalize(
@@ -141,11 +143,15 @@ async function checkCalories() {
     localStorage.setItem("caloriesRemained", remainingBudget);
     updateRemainingCalories();
     entry.remove();
+    counter--;
+    localStorage.setItem("savedEntries", resultDiv.innerHTML);
   });
 
   entry.appendChild(resultItem);
   entry.appendChild(deleteBtn);
   resultDiv.appendChild(entry);
+
+  localStorage.setItem("savedEntries", resultDiv.innerHTML);
 
   inputField.value = "";
   gramsField.value = "";
@@ -170,7 +176,12 @@ function applyWorkout() {
 
   workoutField.value = "";
 }
-// Localstorage
+
+
+
+// saving data to Local Storage and loading it when the page loads
+
+// Budget
 let savedBudget = localStorage.getItem("dailyCaloriesBudget");
 let remainingBudget = localStorage.getItem("caloriesRemained");
 
@@ -180,3 +191,26 @@ if (savedBudget && !remainingBudget) {
 }
 
 dailyCalories.textContent = `Remaining Calories: ${remainingBudget || 0}`;
+
+
+// the food list
+const savedHTML = localStorage.getItem("savedEntries");
+if (savedHTML) {
+  resultDiv.innerHTML = savedHTML;
+
+  document.querySelectorAll(".entry").forEach((entry) => {
+    const text = entry.querySelector("span").textContent;
+    const calories = Number(text.split(": ")[1].split(" ")[0]);
+
+    const deleteBtn = entry.querySelector(".deleteBtn");
+    deleteBtn.addEventListener("click", () => {
+      remainingBudget += calories;
+      localStorage.setItem("caloriesRemained", remainingBudget);
+      updateRemainingCalories();
+      entry.remove();
+      localStorage.setItem("savedEntries", resultDiv.innerHTML);
+    });
+  });
+
+  counter = document.querySelectorAll(".entry").length;
+}
