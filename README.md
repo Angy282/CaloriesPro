@@ -17,4 +17,4 @@ Technologies used:
 - CSS
 - JavaScript
 - REST API
-_ Font Awesome
+- Font Awesome
