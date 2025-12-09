@@ -11,21 +11,18 @@ const API_KEY = "yIhxJacfPG8DrS9EiLh3vOg0vBOkuIqhXv0cAjbQ";
 // Making "Enter" also works
 inputField.addEventListener("keydown", (event) => {
   if (event.key === "Enter") {
-    // checkCalories();
     checkCalories();
   }
 });
 
 workoutField.addEventListener("keydown", (event) => {
   if (event.key === "Enter") {
-    // checkCalories();
     applyWorkout();
   }
 });
 
 gramsField.addEventListener("keydown", (event) => {
   if (event.key === "Enter") {
-    // checkCalories();
     checkCalories();
   }
 });
@@ -35,6 +32,18 @@ budgetField.addEventListener("keydown", (event) => {
     addBudget();
   }
 });
+
+function updateRemainingCalories() {
+  dailyCalories.textContent = `Remaining Calories: ${remainingBudget}`;
+
+  if (remainingBudget < 0) {
+    dailyCalories.style.color = "red";
+  } else if (remainingBudget < 100) {
+    dailyCalories.style.color = "orange";
+  } else {
+    dailyCalories.style.color = "rgb(216, 212, 212)"; // or whatever your normal color is
+  }
+}
 
 // Budget function (I need to save it to localstorage)
 function addBudget() {
@@ -57,6 +66,7 @@ function resetCalories() {
   remainingBudget = 0;
   counter = 0;
 
+  updateRemainingCalories();
   dailyCalories.textContent = "Remaining Calories: 0";
   resultDiv.innerHTML = "";
   budgetField.value = "";
@@ -108,7 +118,7 @@ async function checkCalories() {
   remainingBudget -= finalCalories;
   localStorage.setItem("caloriesRemained", remainingBudget);
 
-  dailyCalories.textContent = `Remaining calories: ${remainingBudget}`;
+  updateRemainingCalories();
 
   // Create wrapper
   const entry = document.createElement("div");
@@ -129,7 +139,7 @@ async function checkCalories() {
   deleteBtn.addEventListener("click", () => {
     remainingBudget += finalCalories;
     localStorage.setItem("caloriesRemained", remainingBudget);
-    dailyCalories.textContent = `Remaining calories: ${remainingBudget}`;
+    updateRemainingCalories();
     entry.remove();
   });
 
@@ -148,17 +158,17 @@ function applyWorkout() {
     if (localStorage.getItem("workoutBonusApplied") === "true") {
       return alert("Workout bonus already applied today!");
     }
-    remainingBudget = Number(remainingBudget) + 300;
+    remainingBudget = Number(remainingBudget) + 400;
     localStorage.setItem("caloriesRemained", remainingBudget);
-    dailyCalories.textContent = `Remaining Calories: ${remainingBudget}`;
+    updateRemainingCalories();
 
     localStorage.setItem("workoutBonusApplied", "true");
-    alert("Great job! +300 calories added 🎉");
+    alert("Great job! +400 calories added 🎉");
   } else {
     alert("No workout bonus applied.");
   }
 
-  workoutField.value = ""
+  workoutField.value = "";
 }
 // Localstorage
 let savedBudget = localStorage.getItem("dailyCaloriesBudget");
