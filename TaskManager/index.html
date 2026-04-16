@@ -4,17 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Task Manager</title>
-    <style>
-      body {
-        background-color: blanchedalmond;
-        font-family: Arial, Helvetica, sans-serif;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        color: rgb(104, 96, 96);
-      }
-    </style>
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <h1>To Do list</h1>
@@ -22,16 +12,8 @@
       <input id="task-input" type="text" placeholder="Daily task" />
       <button class="add-btn">Add</button>
       <button class="edit-btn">Edit</button>
+      <p>----------------------------------------------------</p>
     </div>
-    <script>
-      const editBtn = document.getElementsByClassName("edit-btn");
-      const input = document.getElementById("task-input").value;
-      const addBtn = (document.querySelector(".add-btn").onclick = () => {
-        const tasks = document.createElement("div");
-        tasks.innerHTML = `<li class="task">${input} <button class="done-btn">Done</button> <button class="delete-btn">Delete</button></li>`;
-        tasks.style.marginTop = "10px";
-        document.body.appendChild(tasks);
-      });
-    </script>
+    <script src="script.js"></script>
   </body>
 </html>
